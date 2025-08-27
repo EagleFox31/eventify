@@ -140,11 +140,14 @@ Connectez votre dépôt GitHub à Heroku pour un déploiement automatique.
 
 ### 3.4. Lancer les Migrations
 
-Après le déploiement, vous devez appliquer les migrations de la base de données sur Heroku.
+Après le déploiement, vous devez appliquer les migrations pour créer les tables dans la base de données sur Heroku. C'est une étape **cruciale**.
+
+> **Important :** Si vous voyez une erreur du type `ProgrammingError: relation "..." does not exist`, cela signifie que vous avez oublié cette étape.
 
 ```bash
 heroku run python manage.py migrate
 ```
+
 
 ### 3.5. Créer un Superutilisateur (Optionnel)
 
@@ -229,10 +232,15 @@ Le plan gratuit de Render ne conserve pas les données stockées sur le disque (
 
 Cliquez sur **"Create Web Service"**. Render va maintenant construire et déployer votre application. Les déploiements futurs seront automatiques à chaque `push` sur la branche configurée.
 
-Une fois le déploiement terminé, n'oubliez pas d'exécuter les migrations via la console de Render :
+Une fois le déploiement terminé, vous devez exécuter les migrations pour créer les tables dans votre base de données. C'est une étape **cruciale**.
+
+> **Important :** Si vous voyez une erreur du type `ProgrammingError: relation "..." does not exist`, cela signifie que vous avez oublié cette étape.
+
+Pour lancer les migrations, allez dans l'onglet "Shell" de votre service sur Render et exécutez la commande :
 
 ```bash
 python manage.py migrate
 ```
+
 
 Votre application est maintenant en ligne sur Render !
