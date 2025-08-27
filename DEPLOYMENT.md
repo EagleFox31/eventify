@@ -179,6 +179,9 @@ Render est une alternative moderne à Heroku. Le processus est similaire et se b
     - **Start Command:** `gunicorn eventify.wsgi`
     - **Instance Type:** "Free" est suffisant pour commencer.
 
+    > **Note de Dépannage :** Si vous rencontrez une erreur du type `Failed to find attribute 'app' in 'eventify'`, assurez-vous que la `Start Command` est bien `gunicorn eventify.wsgi` et non `gunicorn eventify:app`. La première commande pointe vers le bon fichier (`wsgi.py`) pour démarrer l'application Django.
+
+
 ### 4.3. Configurer les Variables d'Environnement
 
 Dans la section "Environment", ajoutez les variables suivantes :
