@@ -1,0 +1,23 @@
+# Fichiers de cache Python
+__pycache__/
+*.pyc
+
+# Fichiers de l'éditeur
+.vscode/
+.idea/
+
+# Fichiers de base de données
+*.sqlite3
+db.sqlite3
+
+# Fichiers d'environnement
+.env
+
+# Fichiers média
+/media/
+
+# Fichiers statiques collectés
+/static/
+
+# Fichiers du virtualenv
+event/

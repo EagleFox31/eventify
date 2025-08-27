@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.title }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-green: #1a7a3e;
+            --primary-red: #c41e3a;
+            --primary-yellow: #ffd700;
+            --dark-green: #0f4a23;
+            --light-green: #e8f5e8;
+            --gradient-bg: linear-gradient(135deg, #1a7a3e 0%, #0f4a23 100%);
+            --text-dark: #1a1a1a;
+            --text-light: #6b7280;
+            --text-muted: #9ca3af;
+            --white: #ffffff;
+            --off-white: #fafafa;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.12);
+            --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.15);
+            --border-light: rgba(26, 122, 62, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--off-white);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+        
+        /* Header with gradient background */
+        .header-section {
+            background: var(--gradient-bg);
+            position: relative;
+            overflow: hidden;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(196, 30, 58, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+            z-index: 1;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            transform-style: preserve-3d;
+        }
+        
+        .event-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 2rem;
+            text-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.3),
+                0 4px 8px rgba(0, 0, 0, 0.2),
+                0 0 20px rgba(255, 215, 0, 0.3);
+            transform: perspective(800px) rotateX(10deg) translateZ(30px);
+            animation: titleFloat 4s ease-in-out infinite;
+        }
+        
+        @keyframes titleFloat {
+            0%, 100% { transform: perspective(800px) rotateX(10deg) translateZ(30px) translateY(0); }
+            50% { transform: perspective(800px) rotateX(10deg) translateZ(30px) translateY(-8px); }
+        }
+        
+        .cameroon-accent {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .flag-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dot-green { background: var(--primary-green); }
+        .dot-red { background: var(--primary-red); }
+        .dot-yellow { background: var(--primary-yellow); }
+        
+        /* Main Content Card */
+        .main-card {
+            background: var(--white);
+            margin: -4rem 2rem 2rem;
+            border-radius: 30px;
+            box-shadow: var(--shadow-strong);
+            position: relative;
+            z-index: 3;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-green), var(--primary-yellow), var(--primary-red));
+        }
+        
+        .card-content {
+            padding: 3rem;
+        }
+        
+        /* Event Description */
+        .description-section {
+            margin-bottom: 3rem;
+        }
+        
+        .event-description {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        /* Event Details Grid */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .detail-card {
+            background: linear-gradient(135deg, var(--white) 0%, rgba(26, 122, 62, 0.02) 100%);
+            border: 2px solid var(--border-light);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .detail-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-green), var(--primary-yellow));
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+        
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-green);
+        }
+        
+        .detail-card:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .detail-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .detail-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        /* Tickets Section */
+        .tickets-section {
+            background: linear-gradient(135deg, #f8fffe 0%, rgba(26, 122, 62, 0.03) 100%);
+            border-radius: 25px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-light);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-green), var(--primary-yellow));
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        
+        .tickets-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .ticket-card {
+            background: var(--white);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .ticket-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        
+        .ticket-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-strong);
+            border-color: var(--primary-green);
+        }
+        
+        .ticket-card:hover::before {
+            opacity: 0.05;
+        }
+        
+        .ticket-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        
+        .ticket-info {
+            flex: 1;
+        }
+        
+        .ticket-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .ticket-badge {
+            font-size: 1.5rem;
+        }
+        
+        .ticket-price {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .currency {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        
+        .ticket-select-btn {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: var(--white);
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ticket-select-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .ticket-select-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .ticket-select-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1rem;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
+        }
+        
+        .back-button::before {
+            content: '←';
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+            }
+            
+            .event-title {
+                font-size: 2.5rem;
+                transform: none;
+                animation: none;
+            }
+            
+            .main-card {
+                margin: -3rem 1rem 1rem;
+                border-radius: 20px;
+            }
+            
+            .card-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .detail-card,
+            .tickets-section {
+                padding: 1.5rem;
+            }
+            
+            .ticket-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            .back-button {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.8rem;
+            }
+        }
+        
+        /* Loading States */
+        .loading-placeholder {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: calc(200px + 100%) 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="javascript:history.back()" class="back-button">
+        Retour
+    </a>
+
+    <!-- Hero Header -->
+    <header class="header-section">
+        <div class="header-content">
+            <div class="cameroon-accent">
+                <div class="flag-dot dot-green"></div>
+                <div class="flag-dot dot-red"></div>
+                <div class="flag-dot dot-yellow"></div>
+            </div>
+            <h1 class="event-title">{{ event.title }}</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-card">
+        <div class="card-content">
+            <!-- Event Description -->
+            <section class="description-section">
+                <p class="event-description">{{ event.description }}</p>
+            </section>
+
+            <!-- Event Details -->
+            <section class="details-grid">
+                <div class="detail-card">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-label">Lieu</div>
+                    <div class="detail-value">{{ event.venue.name }}</div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-icon">🕐</div>
+                    <div class="detail-label">Début</div>
+                    <div class="detail-value">{{ event.start_time }}</div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-icon">🏁</div>
+                    <div class="detail-label">Fin</div>
+                    <div class="detail-value">{{ event.end_time }}</div>
+                </div>
+            </section>
+
+            <!-- Tickets Section -->
+            <section class="tickets-section">
+                <div class="section-header">
+                    <h2 class="section-title">Types de billets</h2>
+                    <p class="section-subtitle">Choisissez votre expérience premium</p>
+                </div>
+
+                <div class="tickets-grid">
+                    {% for ticket_type in event.ticket_types.all %}
+                        <div class="ticket-card">
+                            <div class="ticket-content">
+                                <div class="ticket-info">
+                                    <h3 class="ticket-name">
+                                        <span class="ticket-badge">🎫</span>
+                                        {{ ticket_type.name }}
+                                    </h3>
+                                </div>
+                                <div class="ticket-price">
+                                    {{ ticket_type.price }}<span class="currency">€</span>
+                                </div>
+                                <button class="ticket-select-btn">
+                                    Sélectionner
+                                </button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

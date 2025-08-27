@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventify - Accueil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #1a7a3e;
+      --dark-green: #0f4a23;
+      --primary-yellow: #ffd700;
+      --primary-red: #c41e3a;
+      --text-dark: #1a1a1a;
+      --text-light: #6b7280;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    * {margin:0;padding:0;box-sizing:border-box;}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+      color: var(--text-dark);
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem;
+      color: var(--white);
+      background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center/cover;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+    }
+    .hero a {
+      background: var(--primary-yellow);
+      color: var(--dark-green);
+      padding: 0.8rem 1.5rem;
+      font-weight: 600;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .hero a:hover { background: var(--white); }
+
+    /* FEATURES */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 2rem;
+      padding: 4rem 2rem;
+      background: #f9fafb;
+    }
+    .feature {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s;
+    }
+    .feature:hover {transform: translateY(-5px);}
+    .feature h3 {margin:1rem 0;color:var(--primary-green);}
+
+    /* EVENTS */
+    .events {
+      padding: 4rem 2rem;
+    }
+    .events h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    .events-list {
+      display: grid;
+      gap: 1.5rem;
+      list-style: none;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .event-item {
+      background: var(--white);
+      border-radius: 15px;
+      padding: 1.5rem 2rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s;
+    }
+    .event-item:hover {transform: translateY(-5px);border-left: 6px solid var(--primary-green);}
+    .event-title {font-size:1.2rem;font-weight:600;}
+    .event-time {color:var(--text-light);font-size:0.95rem;}
+    .event-arrow {font-size:1.5rem;color:var(--primary-green);}
+
+    /* FOOTER */
+    footer {
+      background: var(--dark-green);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+    footer p {margin:0.5rem 0;}
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Eventify</h1>
+    <p>Vos billets d’événements au Cameroun en quelques clics.</p>
+    <a href="#events">Voir les événements</a>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="feature">
+      <h3>🎟️ Achat instantané</h3>
+      <p>Réservez vos billets en ligne rapidement et en toute simplicité.</p>
+    </div>
+    <div class="feature">
+      <h3>🔒 Paiement sécurisé</h3>
+      <p>Transactions sûres avec confirmation immédiate.</p>
+    </div>
+    <div class="feature">
+      <h3>📱 QR Code</h3>
+      <p>Accédez à vos événements directement avec votre smartphone.</p>
+    </div>
+    <div class="feature">
+      <h3>🤝 Support 24/7</h3>
+      <p>Une assistance disponible à tout moment pour vos besoins.</p>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="events" id="events">
+    <h2>Événements à venir</h2>
+    <ul class="events-list">
+      {% for event in events %}
+        <li class="event-item">
+          <div>
+            <div class="event-title">{{ event.title }}</div>
+            <div class="event-time">🕒 {{ event.start_time }}</div>
+          </div>
+          <a href="{% url 'web:event_detail' event.id %}" class="event-arrow">→</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Eventify. Tous droits réservés.</p>
+    <p>Contact : support@eventify.cm | Douala, Cameroun</p>
+  </footer>
+</body>
+</html>
