@@ -141,9 +141,10 @@
   </section>
 
   <!-- EVENTS -->
-  <section class="events" id="events">
-    <h2>Événements à venir</h2>
-    <ul class="events-list">
+ <section class="events" id="events">
+  <h2>Événements à venir</h2>
+  <ul class="events-list">
+    {% if events %}
       {% for event in events %}
         <li class="event-item">
           <div>
@@ -153,8 +154,15 @@
           <a href="{% url 'web:event_detail' event.id %}" class="event-arrow">→</a>
         </li>
       {% endfor %}
-    </ul>
-  </section>
+    {% else %}
+      <li class="event-item">
+        <div class="event-title">Rien encore</div>
+        <div class="event-time">Les événements apparaîtront bientôt 🎉</div>
+      </li>
+    {% endif %}
+  </ul>
+</section>
+
 
   <!-- FOOTER -->
   <footer>
