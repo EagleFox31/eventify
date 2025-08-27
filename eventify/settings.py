@@ -28,7 +28,8 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-jm&m3yai0_h&k=o+&q)*fb2l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['.herokuapp.com', '127.0.0.1'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['.herokuapp.com', '.onrender.com', '127.0.0.1'])
+
 
 
 
@@ -83,11 +84,9 @@ WSGI_APPLICATION = 'eventify.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db('DATABASE_URL', default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
 }
+
 
 
 # Password validation
